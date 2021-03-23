@@ -1,11 +1,43 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import Display from '../Display';
 import Show from '../Show';
+import { fetchShow as mockFetchShow }from '../../api/fetchShow';
 
+jest.mock('../../api/fetchShow')
 
+test("Display component renders without any passed in props", () => {
+    render(<Display />);
+})
 
+const testShow = {
+    name: "Stranger Things",
+    summary: "something",
+    seasons: [
+        {id: 0, name: "Season 1", episodes: []},
+        {id: 1, name: "Season 2", episodes: []},
+        {id: 2, name: "Season 3", episodes: []},
+        {id: 3, name: "Season 4", episodes: []}
+    ]
+}
+
+test("fetch button is pressed, the show component will display", async() => {
+    render(<Display />);
+    //mockFetchShow.mockResolvedValueOnce(testShow);
+
+    // const button = screen.getByRole('button')
+    // userEvent.click(button);
+
+    // const showComponent = await screen.findByTestId("show-container");
+    // expect(showComponent).toBeInTheDocument();
+})
+
+test("when the fetch button is pressed, the amount of select options rendered is equal to the amount of seasons in your test data", async () => {
+    render (<Display />)
+    mockFetchShow.mockResolvedValueOnce(testShow)
+})
 
 
 
