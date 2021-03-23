@@ -8,8 +8,8 @@ const testEpisode = {
     image: "http://static.tvmaze.com/uploads/images/medium_landscape/67/168918.jpg",
     season: 1,
     number: 1,
-    //summary: "Jalpa-Shah, frontend developer",
-    summary:"",
+    summary: "Jalpa-Shah, frontend developer",
+    //summary:"",
     runtime: 1
 }
 
@@ -29,16 +29,16 @@ test("renders without error", () => {
 
 test("renders the summury test passed as prop", ()=>{
     //arrange
-    render(<Episode episode={testEpisode.summary}/>);
+    render(<Episode episode={testEpisode}/>);
 
     //act
-    const summary = screen.queryByText("Jalpa-Shah, frontend developer");
+    const summary = screen.getByText("Jalpa-Shah, frontend developer");
     //const summary = screen.getByTestId("summary")
 
     //assert
-    //expect(summary).toBeInTheDocument();
+    expect(summary).toBeInTheDocument();
     //expect(summary).toBeTruthy();
-    expect(summary).toBeNull()
+    expect(summary).not.toBeNull()
 });
 
 test("renders default image when image is not defined", ()=>{

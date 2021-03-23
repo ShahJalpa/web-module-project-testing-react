@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import Display from '../Display';
 import Show from '../Show';
-import { fetchShow as mockFetchShow }from '../../api/fetchShow';
+import fetchShow from '../../api/fetchShow';
 
 jest.mock('../../api/fetchShow')
 
@@ -25,18 +25,18 @@ const testShow = {
 
 test("fetch button is pressed, the show component will display", async() => {
     render(<Display />);
-    //mockFetchShow.mockResolvedValueOnce(testShow);
+    fetchShow.mockResolvedValueOnce(testShow);
 
-    // const button = screen.getByRole('button')
-    // userEvent.click(button);
+    const button = screen.getByRole('button')
+    userEvent.click(button);
 
-    // const showComponent = await screen.findByTestId("show-container");
-    // expect(showComponent).toBeInTheDocument();
+    const showComponent = await screen.findByTestId("show-container");
+    expect(showComponent).toBeInTheDocument();
 })
 
 test("when the fetch button is pressed, the amount of select options rendered is equal to the amount of seasons in your test data", async () => {
     render (<Display />)
-    mockFetchShow.mockResolvedValueOnce(testShow)
+    fetchShow.mockResolvedValueOnce(testShow)
 })
 
 
