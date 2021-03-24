@@ -47,6 +47,8 @@ test("when the fetch button is pressed, the amount of select options rendered is
     await waitFor(() => expect(options).toHaveLength(lengthofSeason));
 })
 
+//and everything is done
+
 
 
 
