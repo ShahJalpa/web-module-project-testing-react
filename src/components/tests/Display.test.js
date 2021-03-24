@@ -37,6 +37,14 @@ test("fetch button is pressed, the show component will display", async() => {
 test("when the fetch button is pressed, the amount of select options rendered is equal to the amount of seasons in your test data", async () => {
     render (<Display />)
     fetchShow.mockResolvedValueOnce(testShow)
+
+    const button = screen.getByRole("button");
+    userEvent.click(button);
+
+    const lengthofSeason = testShow.seasons.length;
+    const options = await screen.findAllByTestId("season-option");
+
+    await waitFor(() => expect(options).toHaveLength(lengthofSeason));
 })
 
 
