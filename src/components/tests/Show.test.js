@@ -1,26 +1,59 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { getByLabelText, queryByText, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Show from './../Show';
 
 const testShow = {
     //add in approprate test data structure here.
+    name: "Stranger Things",
+    summary: "something",
+    seasons: [
+        {id: 0, name: "Season 1", episodes: []},
+        {id: 1, name: "Season 2", episodes: []},
+        {id: 2, name: "Season 3", episodes: []},
+        {id: 3, name: "Season 4", episodes: []}
+    ]
 }
 
 test('renders testShow and no selected Season without errors', ()=>{
+    render(<Show show={testShow} selectedSeason={"none"}/>);
 });
 
 test('renders Loading component when prop show is null', () => {
+    render(<Show show={null} />);
+
+    const loading = screen.queryByTestId("loading-container");
+
+    expect(loading).toBeInTheDocument();
 });
 
 test('renders same number of options seasons are passed in', ()=>{
+    render (<Show show={testShow} selectedSeason={"none"}/>);
+
+    const seasonOptions = screen.queryAllByTestId("season-option");
+
+    expect(seasonOptions).toHaveLength(4);
 });
 
 test('handleSelect is called when an season is selected', () => {
+    const mockSelectedSeason = jest.fn();
+    render (<Show show={testShow} handleSelect={mockSelectedSeason} selectedSeason={"none"}/>);
+
+    const seasonOptionSelected = screen.getByLabelText("Select A Season");
+    userEvent.selectOptions(seasonOptionSelected, ['2']);
 });
 
 test('component renders when no seasons are selected and when rerenders with a season passed in', () => {
+    //const mockSelectedSeason = jest.fn();
+
+    const {rerender} = render(<Show show={testShow} selectedSeason={"none"}/>)
+    const episodeContainer = screen.queryByTestId("episodes-container");
+    expect(episodeContainer).not.toBeInTheDocument();
+
+    rerender(<Show show={testShow} selectedSeason={"1"}/>)
+    const episodes = screen.queryByTestId("episodes-container");
+    expect(episodes).toBeInTheDocument();
 });
 
 //Tasks:
